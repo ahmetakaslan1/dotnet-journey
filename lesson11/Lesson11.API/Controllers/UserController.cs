@@ -1,0 +1,33 @@
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using Lesson11.Application;
+using Lesson11.Application.DTOs;
+
+namespace Lesson11.API.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class UserController : ControllerBase
+{
+    private readonly UserService _userService;
+
+    public UserController(UserService userService)
+    {
+        _userService = userService;
+    }
+
+    [HttpPost]
+    // API endpoint'leri de artık async Task. Garson (Sunucu Thread'i) burada serbest kalacak!
+    public async Task<IActionResult> Create([FromBody] UserCreateDto newUserDto)
+    {
+        await _userService.RegisterUserAsync(newUserDto);
+        return Ok("Kullanıcı başarıyla kaydedildi.");
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var dtoList = await _userService.GetAllUsersAsync();
+        return Ok(dtoList);
+    }
+}

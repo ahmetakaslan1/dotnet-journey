@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Lesson13.API/Lesson13.API.csproj" />
+  <Project Path="Lesson13.Application/Lesson13.Application.csproj" />
+  <Project Path="Lesson13.Domain/Lesson13.Domain.csproj" />
+  <Project Path="Lesson13.Infrastructure/Lesson13.Infrastructure.csproj" />
+</Solution>

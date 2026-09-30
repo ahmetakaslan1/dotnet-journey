@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  # 1. VERİTABANIMIZ
+  postgres-db:
+    image: postgres:16
+    container_name: taskify-db
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5444:5432" # Bilgisayarımızdaki 5444'ü Docker içindeki 5432'ye bağla
+    volumes:
+      - taskify-pgdata-new:/var/lib/postgresql/data
+    restart: always
+
+  # 2. C# WEB API'MİZ (Sıfır Kurulum Mucizesi!)
+  taskify-api:
+    build:
+      context: . # Ana dizindeki klasörler dahil her şeyi build edebilmek için context'i ana dizin veriyoruz
+      dockerfile: Lesson14.API/Dockerfile # Dockerfile'ın nerede olduğunu söylüyoruz
+    container_name: taskify-api
+    depends_on:
+      - postgres-db # API'nin çalışması için önce Veritabanının hazır olmasını bekle
+    environment:
+      # Şifreleri ve host adını C#'a dışarıdan (RAM'e) enjekte ediyoruz!
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=${DB_NAME}
+      - JWT_SECRET=${JWT_SECRET}
+    ports:
+      - "5050:8080" # Bilgisayarımızdaki 5050 portunu C#'ın içerdeki 8080 portuna bağlıyoruz
+    restart: always
+
+# Verilerin silinmemesi için sanal bir disk (volume) oluşturuyoruz
+volumes:
+  taskify-pgdata-new:

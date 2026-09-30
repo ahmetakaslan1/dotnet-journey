@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sektör Standartı Ayrık Mimari</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- AUTH AREA (LOGIN / REGISTER) -->
+    <div class="container" id="authArea">
+        <div class="tabs">
+            <div class="tab active" id="tabLogin" onclick="switchTab('login')">Giriş Yap</div>
+            <div class="tab" id="tabRegister" onclick="switchTab('register')">Kayıt Ol</div>
+        </div>
+
+        <!-- YAKALANAN HATALAR VE MESAJLAR BURAYA YAZILACAK -->
+        <div id="authError" class="error-message"></div>
+        <div id="authSuccess" class="success-message"></div>
+
+        <!-- LOGIN FORM -->
+        <form id="loginForm">
+            <div class="form-group">
+                <label>E-posta</label>
+                <input type="email" id="loginEmail" required placeholder="ornek@sirket.com">
+            </div>
+            <div class="form-group">
+                <label>Şifre</label>
+                <input type="password" id="loginPassword" required placeholder="Şifreniz">
+            </div>
+            <button type="submit" class="btn">Giriş Yap</button>
+        </form>
+
+        <!-- REGISTER FORM -->
+        <form id="registerForm" class="hidden">
+            <div class="form-group">
+                <label>İsim</label>
+                <input type="text" id="registerName" required placeholder="Adınız Soyadınız">
+            </div>
+            <div class="form-group">
+                <label>E-posta</label>
+                <input type="email" id="registerEmail" required placeholder="ornek@sirket.com">
+            </div>
+            <div class="form-group">
+                <label>Şifre</label>
+                <input type="password" id="registerPassword" required placeholder="En az 6 karakter">
+            </div>
+            <button type="submit" class="btn">Kayıt Ol</button>
+        </form>
+    </div>
+
+    <!-- DASHBOARD AREA (SADECE JWT İLE GİRİLİR) -->
+    <div class="container hidden" id="dashboardArea">
+        <h2>🎉 Hoş Geldiniz!</h2>
+        <p style="margin-top:10px; color:#ccc; font-size:0.9rem;">
+            Aşağıdaki veriler C# Web API'sinden <strong>[Authorize]</strong> damgalı endpoint'ten 
+            JWT (VIP Kartı) kullanılarak çekilmiştir.
+        </p>
+        
+        <button class="btn" onclick="fetchUsers()" style="margin-top: 20px;">Kullanıcıları Getir (VIP İzin)</button>
+        <button class="btn" onclick="logout()" style="background: #333;">Çıkış Yap</button>
+
+        <div id="dashboardError" class="error-message"></div>
+        
+        <div id="usersList">
+            <!-- Kullanıcılar buraya JS ile yüklenecek -->
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

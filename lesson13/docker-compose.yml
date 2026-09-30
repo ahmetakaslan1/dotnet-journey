@@ -1,0 +1,24 @@
+services:
+  postgres-db: 
+    image: postgres:latest
+    container_name: pg-Lesson13
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      # Projeyi taşıdığımızda verilerin kaybolmaması için klasöre bağlıyoruz
+      - ./pgdata:/var/lib/postgresql
+
+  mysql-db:
+    image: mysql:latest
+    container_name: mysql-Lesson13
+    environment:
+      MYSQL_ROOT_PASSWORD: mysecretpassword
+      MYSQL_DATABASE: mysqldemo
+    ports:
+      - "3313:3306"
+    volumes:
+      - ./mysql_data:/var/lib/mysql

@@ -1,0 +1,21 @@
+# .NET Core / Visual Studio için Standart Yoksaymalar
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.log
+
+# Docker Veritabanı Yoksaymaları (ASLA GitHub'a Gitmemeli!)
+pgdata/
+mysql_data/
+*/pgdata/
+*/mysql_data/
+
+# SQLite ve diğer yerel veritabanı dosyaları
+*.db
+*.sqlite
+*.sqlite3
+
+# Mac ortamından gelebilecek gereksiz dosyalar
+.DS_Store

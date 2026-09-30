@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+  postgres-dbxxx: # Buradaki Opsiyonel bir isimlendirme
+    image: postgres:latest
+    container_name: pg-lesson5_changed
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+    ports:
+      - "5432:5432"
+    volumes:
+      # =========================================================================
+      # 1. YÖNTEM: GÖRECELİ YOL (Relative Path) - SEKTÖRDE EN ÇOK KULLANILAN
+      # =========================================================================
+      # ./pgdata demek "Bu docker-compose.yml dosyasının bulunduğu klasörün içine
+      # pgdata diye bir klasör aç, Docker içindeki /var/lib/postgresql/data klasörünü buraya bağla" demektir.
+      # Bu yöntem mükemmeldir çünkü projeyi GitHub'dan başka bilgisayara çeksen bile
+      # yollar bozulmaz, klasör içinde takılmaya devam eder.
+      # NOT: Postgres 18 ve sonrasında bu yol /var/lib/postgresql olarak ayarlanır.
+      - ./pgdata:/var/lib/postgresql
+
+      # =========================================================================
+      # 2. YÖNTEM: MUTLAK YOL (Absolute Path) - Senin istediğin yöntem
+      # =========================================================================
+      # Eğer verileri projenin dışında, bilgisayarında belirli bir klasörde (örn: Masaüstü)
+      # tutmak istersen, Windows yollarını Unix (Linux) formatına çevirerek veya
+      # tırnak içinde Windows formatıyla verebilirsin. (Aşağıdaki satır örnektir, o yüzden yorumdadır)
+      #
+      # Windows formatı kullanımı:
+      # - "C:/Users/akasl/Desktop/Data Volumes/pgdata:/var/lib/postgresql/data"
+      #
+      # Sektörde çok mecbur kalınmadıkça kullanılmaz çünkü Ahmet'in bilgisayarında
+      # "akasl" klasörü varken Mehmet'te yoktur, kod başkasında çalışmaz.
+
+  mysql-db:
+    image: mysql:latest
+    container_name: mysql-lesson5
+    environment:
+      MYSQL_ROOT_PASSWORD: mysecretpassword
+      MYSQL_DATABASE: mysqldemo
+    ports:
+      - "3306:3306"
+    volumes:
+      # Aynı şekilde MySQL için de bulunduğumuz (lesson5) klasörün içine
+      # mysql_data diye bir klasör açıp, MySQL verilerini oraya yansıtıyoruz.
+      - ./mysql_data:/var/lib/mysql
